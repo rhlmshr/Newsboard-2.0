@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.newsboard"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField "String", "NEWS_API_KEY", newsapi_key
+        buildConfigField "String", "BASE_URL", '"http://newsapi.org/v2/"'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation "androidx.fragment:fragment:1.2.2"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    implementation 'com.google.android.material:material:1.1.0'
+
+    // navigation component
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation"
+
+    // data binding
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt "com.android.databinding:compiler:$gradle_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.0.0'
+
+    // image loading
+    implementation "com.github.bumptech.glide:glide:$glide"
+
+    //Database
+    implementation 'android.arch.persistence.room:rxjava2:1.1.1'
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    kapt "android.arch.persistence.room:compiler:1.1.1"
+
+    // paging library
+    implementation "androidx.paging:paging-runtime:2.1.1"
+    implementation 'androidx.paging:paging-runtime-ktx:2.1.1'
+}
