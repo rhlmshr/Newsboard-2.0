@@ -20,6 +20,9 @@
         <argument
             android:name="source_id"
             app:argType="string" />
+        <argument
+            android:name="source_name"
+            app:argType="string" />
     </fragment>
 
 </navigation>

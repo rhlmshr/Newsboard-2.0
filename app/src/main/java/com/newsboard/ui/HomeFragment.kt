@@ -114,11 +114,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val selectedSource = sourcesList[sourcesList.indexOfFirst {
+            it.name == item.title
+        }]
         findNavController().navigate(
             HomeFragmentDirections.actionHomeFragmentToSourceArticleListFragment(
-                sourcesList[sourcesList.indexOfFirst {
-                    it.name == item.title
-                }].id
+                selectedSource.id,
+                selectedSource.name ?: ""
             )
         )
         return true

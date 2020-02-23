@@ -30,6 +30,7 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
 
         arguments?.let {
             sourceArticleListViewModel.getSourceArticles(arrayOf(it.getString("source_id")))
+            tv_toolbar.text = it.getString("source_name")
         }
     }
 
@@ -68,6 +69,7 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
     override fun setupViews() {
         (activity as AppCompatActivity).setSupportActionBar(tl_home)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         tbl_home.visibility = View.GONE
         tv_toolbar.gravity = Gravity.CENTER_VERTICAL
