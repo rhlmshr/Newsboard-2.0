@@ -1,12 +1,10 @@
 package com.newsboard.ui
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +20,7 @@ import com.newsboard.ui.content.HomeListFragment
 import com.newsboard.utils.base.BaseFragment
 import com.newsboard.utils.base.ResponseState
 import com.newsboard.utils.tabMenuCategories
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
@@ -127,6 +126,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),
                 selectedSource.name ?: ""
             )
         )
+        drawer_layout.closeDrawer(GravityCompat.START, true)
         return true
     }
 

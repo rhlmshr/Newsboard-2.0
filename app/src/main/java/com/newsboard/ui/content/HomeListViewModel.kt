@@ -33,11 +33,16 @@ class HomeListViewModel : ViewModel() {
         val articlesDataSourceFactory =
             ArticlesDataSourceFactory(topHeadlinesLiveData, paramsMap = paramsMap)
 
-        topHeadlinesLiveData.addSource(
-            LivePagedListBuilder(articlesDataSourceFactory, pagedListConfig)
-                .setFetchExecutor(executor)
-                .build()
-        ) {
+        val articlesLivePagedBuilder = LivePagedListBuilder(articlesDataSourceFactory, pagedListConfig)
+            .setFetchExecutor(executor)
+            .setBoundaryCallback(object : PagedList.BoundaryCallback<Article>() {
+                override fun onItemAtEndLoaded(itemAtEnd: Article) {
+
+                }
+            })
+            .build()
+
+        topHeadlinesLiveData.addSource(articlesLivePagedBuilder) {
             topHeadlinesLiveData.value = ResponseState.Success(it)
         }
     }

@@ -61,10 +61,10 @@ class HomeListFragment : BaseFragment<FragmentHomeListBinding>(),
         homeListViewModel.topHeadlinesLiveData.observe(this, Observer {
             when (it) {
                 is ResponseState.Success -> {
+                    articlesAdapter.submitList(it.output)
                     dataBinding.pbLoader.hide()
                     vs_state.visibility = View.VISIBLE
                     vs_state.displayedChild = 0
-                    articlesAdapter.submitList(it.output)
                 }
 
                 else -> {
