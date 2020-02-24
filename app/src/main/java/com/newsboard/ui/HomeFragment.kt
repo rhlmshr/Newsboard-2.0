@@ -24,6 +24,9 @@ import com.newsboard.utils.base.ResponseState
 import com.newsboard.utils.tabMenuCategories
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
+/**
+ * Root fragment with tabs and drawer navigation.
+ */
 class HomeFragment : BaseFragment<FragmentHomeBinding>(),
     NavigationView.OnNavigationItemSelectedListener {
 

@@ -13,8 +13,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.newsboard.R
-import com.newsboard.data.models.articles.ArticlesResponse
-
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
 

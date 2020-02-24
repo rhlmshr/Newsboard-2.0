@@ -14,6 +14,7 @@ import java.util.concurrent.Executors
 class SourceArticleListViewModel : ViewModel() {
 
     val sourceArticlesLiveData = MediatorLiveData<ResponseState<PagedList<Article>>>()
+
     private val executor = Executors.newFixedThreadPool(5)
 
     fun getSourceArticles(categoryName: Array<String?>, searchQuery: String = "") {

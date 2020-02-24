@@ -27,15 +27,23 @@ import kotlinx.android.synthetic.main.layout_empty_error_state.*
 import kotlinx.android.synthetic.main.layout_list_with_states.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
+/**
+ * Fragment to show the list of articles on basis of either
+ * selected sources or queried via search.
+ */
 class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>(),
     ArticlesAdapter.ArticleActionHandler {
 
     override val layoutId: Int
         get() = R.layout.fragment_source_article_list
 
+    /**
+     * Flag to indicate fragment list is used by search queries.
+     */
+    private var isSearchNeeded = false
+
     private lateinit var articlesAdapter: ArticlesAdapter
     private lateinit var sourceArticleListViewModel: SourceArticleListViewModel
-    private var isSearchNeeded = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -170,6 +178,7 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
         selectedArticle.bookMarked = !selectedArticle.bookMarked
         articlesAdapter.notifyItemChanged(adapterPosition, selectedArticle)
 
+        // todo remove pun with functionality
         Snackbar.make(
             dataBinding.root,
             getString(R.string.developer_msg),
