@@ -3,7 +3,6 @@
     <string name="app_name">Newsboard</string>
     <string name="search">Search</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="general">General</string>
     <string name="entertainment">Entertainment</string>
@@ -20,4 +19,8 @@
     <string name="empty_msg">We cannot find the item you are searching for. Try tweaking around!</string>
     <string name="open_drawer">open_drawer</string>
     <string name="close_drawer">close_drawer</string>
+    <string name="source_name">source_name</string>
+    <string name="source_id">source_id</string>
+
+    <string name="developer_msg">Functionality is reserved till hiring process is done. 😄</string>
 </resources>

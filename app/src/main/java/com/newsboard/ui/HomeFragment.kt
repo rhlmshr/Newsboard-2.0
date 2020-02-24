@@ -107,6 +107,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),
         if (drawerToggle.onOptionsItemSelected(item)) return true
         return when (item.itemId) {
             R.id.menu_search -> {
+                findNavController().navigate(R.id.action_homeFragment_to_sourceArticleListFragment)
                 true
             }
             else -> super.onOptionsItemSelected(item)

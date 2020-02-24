@@ -16,11 +16,13 @@ class SourceArticleListViewModel : ViewModel() {
     val sourceArticlesLiveData = MediatorLiveData<ResponseState<PagedList<Article>>>()
     private val executor = Executors.newFixedThreadPool(5)
 
-    fun getSourceArticles(categoryName: Array<String?>) {
+    fun getSourceArticles(categoryName: Array<String?>, searchQuery: String = "") {
         sourceArticlesLiveData.value = ResponseState.Loading
         val paramsMap = mutableMapOf<String, Any>(
             ApiParams.SOURCES to categoryName.joinToString(",")
         )
+
+        if (!searchQuery.isBlank()) paramsMap[ApiParams.QUERY] = searchQuery
 
         val pagedListConfig = PagedList.Config.Builder()
             .setEnablePlaceholders(false)
@@ -30,7 +32,11 @@ class SourceArticleListViewModel : ViewModel() {
             .build()
 
         val articlesDataSourceFactory =
-            ArticlesDataSourceFactory(sourceArticlesLiveData, paramsMap = paramsMap)
+            ArticlesDataSourceFactory(
+                sourceArticlesLiveData,
+                paramsMap = paramsMap,
+                isHeadlinesArticles = true
+            )
 
         sourceArticlesLiveData.addSource(
             LivePagedListBuilder(articlesDataSourceFactory, pagedListConfig)

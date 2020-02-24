@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.newsboard.R
 import com.newsboard.adapters.ArticlesAdapter
 import com.newsboard.data.models.articles.Article
@@ -109,6 +110,12 @@ class HomeListFragment : BaseFragment<FragmentHomeListBinding>(),
     ) {
         selectedArticle.bookMarked = !selectedArticle.bookMarked
         articlesAdapter.notifyItemChanged(adapterPosition, selectedArticle)
+
+        Snackbar.make(
+            dataBinding.root,
+            getString(R.string.developer_msg),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     override fun onShareArticle(selectedArticle: Article) {

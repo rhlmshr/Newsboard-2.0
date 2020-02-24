@@ -33,6 +33,7 @@ class ArticlesAdapter(private val articlesActionHandler: ArticleActionHandler) :
             binding.ivBookmark.isActivated = article.bookMarked
 
             binding.root.setOnClickListener { articlesActionHandler.onViewArticle(article) }
+
             binding.ivBookmark.setOnClickListener {
                 articlesActionHandler.onBookMarkArticle(article, adapterPosition)
             }

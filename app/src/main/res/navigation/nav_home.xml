@@ -24,5 +24,4 @@
             android:name="source_name"
             app:argType="string" />
     </fragment>
-
 </navigation>

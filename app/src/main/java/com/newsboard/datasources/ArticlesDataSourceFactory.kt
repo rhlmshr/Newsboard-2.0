@@ -8,10 +8,11 @@ import com.newsboard.utils.base.ResponseState
 
 class ArticlesDataSourceFactory(
     private val articlesLiveData: MutableLiveData<ResponseState<PagedList<Article>>>,
-    private val paramsMap: MutableMap<String, Any>
+    private val paramsMap: MutableMap<String, Any>,
+    private val isHeadlinesArticles: Boolean = false
 ) : DataSource.Factory<Long, Article>() {
 
     override fun create(): DataSource<Long, Article> {
-        return ArticlesDataSources(articlesLiveData, paramsMap)
+        return ArticlesDataSources(articlesLiveData, paramsMap, isHeadlinesArticles)
     }
 }

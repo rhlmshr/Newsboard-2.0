@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:background="@drawable/ic_gray_curved_bg"
-            android:drawableEnd="@drawable/ic_close"
+            android:drawableEnd="@drawable/ic_search"
             android:drawablePadding="10dp"
             android:fontFamily="@font/sf_pro_regular"
             android:hint="@string/search"
