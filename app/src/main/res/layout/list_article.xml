@@ -10,6 +10,10 @@
         <variable
             name="currItem"
             type="com.newsboard.data.models.articles.Article" />
+
+        <variable
+            name="actionHandler"
+            type="com.newsboard.adapters.ArticlesAdapter.ArticleActionHandler" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +22,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="ContentDescription">
 
         <ImageView
             android:id="@+id/iv_article"
@@ -38,7 +43,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:clickable="false"
             android:text="@{currItem.author}"
             android:visibility="@{currItem.source.name == currItem.author ? View.VISIBLE : View.GONE}"
             app:chipBackgroundColor="@color/colorAccent"
@@ -52,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:clickable="false"
             android:text="@{currItem.source.name}"
             app:chipBackgroundColor="@color/colorAccent"
             app:layout_constraintStart_toEndOf="@id/chip_author"
@@ -81,6 +84,7 @@
             android:layout_marginTop="10dp"
             android:text="@{currItem.description}"
             android:textColor="@color/darkerGray"
+            android:visibility="@{!currItem.description.isEmpty ? View.VISIBLE : View.GONE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
@@ -102,11 +106,26 @@
             android:id="@+id/iv_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="5dp"
             android:src="@drawable/ic_bookmark"
+            app:layout_constraintEnd_toStartOf="@+id/iv_share"
+            app:layout_constraintTop_toBottomOf="@+id/tv_desc" />
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{() -> actionHandler.onShareArticle(currItem)}"
+            android:padding="5dp"
+            android:src="@drawable/ic_share"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_desc"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_desc" />
 
         <Space
             android:layout_width="match_parent"

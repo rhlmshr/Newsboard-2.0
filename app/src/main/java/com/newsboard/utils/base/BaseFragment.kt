@@ -69,7 +69,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     protected open fun hideProgressDialog() {}
 
     protected fun setEmptyErrorStates(
-        responseState: ResponseState<ArticlesResponse>,
+        responseState: ResponseState<Any>,
         errorImg: ImageView,
         errorTitle: TextView,
         errorDesc: TextView

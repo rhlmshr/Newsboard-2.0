@@ -1,9 +1,11 @@
 package com.newsboard.data.models.articles
 
+import androidx.room.Ignore
 import com.google.gson.annotations.SerializedName
 import com.newsboard.data.models.sources.Source
 import com.newsboard.utils.TimeAgo
 import com.newsboard.utils.tzSdFormat
+import java.text.ParseException
 import java.util.*
 
 data class Article(
@@ -22,9 +24,15 @@ data class Article(
     @SerializedName("url")
     val url: String,
     @SerializedName("urlToImage")
-    val urlToImage: String
+    val urlToImage: String,
+    @Ignore
+    var bookMarked: Boolean
 ) {
     fun getPublishedAtAgo(): String {
-        return TimeAgo.getTimeAgo((tzSdFormat.parse(publishedAt) as Date).time)
+        return try {
+            TimeAgo.getTimeAgo((tzSdFormat.parse(publishedAt) as Date).time)
+        } catch (parseException: ParseException) {
+            ""
+        }
     }
 }
