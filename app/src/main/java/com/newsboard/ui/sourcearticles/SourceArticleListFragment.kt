@@ -23,9 +23,6 @@ import com.newsboard.utils.base.BaseFragment
 import com.newsboard.utils.base.ResponseState
 import com.newsboard.utils.impls.IntrinsicDrawableClickListenerImpl
 import com.newsboard.utils.impls.TextWatchImpl
-import kotlinx.android.synthetic.main.layout_empty_error_state.*
-import kotlinx.android.synthetic.main.layout_list_with_states.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
  * Fragment to show the list of articles on basis of either
@@ -51,12 +48,12 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
         arguments?.let {
             sourceArticleListViewModel.getSourceArticles(arrayOf(it.getString(getString(R.string.source_id))))
 
-            tv_toolbar.text =
+            dataBinding.toolbar.tvToolbar.text =
                 if (it.containsKey(getString(R.string.source_name)))
                     it.getString(getString(R.string.source_name))
                 else {
                     isSearchNeeded = true
-                    et_search.visibility = View.VISIBLE
+                    dataBinding.toolbar.etSearch.visibility = View.VISIBLE
                     getString(R.string.search)
                 }
         }
@@ -74,24 +71,24 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
             when (it) {
                 is ResponseState.Success -> {
                     dataBinding.pbLoader.hide()
-                    vs_state.visibility = View.VISIBLE
-                    vs_state.displayedChild = 0
+                    dataBinding.vsState.vsState.visibility = View.VISIBLE
+                    dataBinding.vsState.vsState.displayedChild = 0
                     articlesAdapter.submitList(it.output)
                 }
 
                 else -> {
                     if (it is ResponseState.Loading) {
-                        vs_state.visibility = View.INVISIBLE
+                        dataBinding.vsState.vsState.visibility = View.INVISIBLE
                         dataBinding.pbLoader.show()
                     } else {
                         dataBinding.pbLoader.hide()
-                        vs_state.visibility = View.VISIBLE
-                        vs_state.displayedChild = 1
+                        dataBinding.vsState.vsState.visibility = View.VISIBLE
+                        dataBinding.vsState.vsState.displayedChild = 1
                         setEmptyErrorStates(
                             it,
-                            iv_error,
-                            iv_error_title,
-                            iv_error_desc
+                            dataBinding.vsState.errorState.ivError,
+                            dataBinding.vsState.errorState.ivErrorTitle,
+                            dataBinding.vsState.errorState.ivErrorDesc
                         )
                     }
                 }
@@ -100,14 +97,14 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
     }
 
     override fun setupViews() {
-        (activity as AppCompatActivity).setSupportActionBar(tl_home)
+        (activity as AppCompatActivity).setSupportActionBar(dataBinding.toolbar.tlHome)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        tbl_home.visibility = View.GONE
-        tv_toolbar.gravity = Gravity.CENTER_VERTICAL
+        dataBinding.toolbar.tblHome.visibility = View.GONE
+        dataBinding.toolbar.tvToolbar.gravity = Gravity.CENTER_VERTICAL
 
-        rv_list.adapter = articlesAdapter
-        rv_list.addItemDecoration(
+        dataBinding.vsState.rvList.adapter = articlesAdapter
+        dataBinding.vsState.rvList.addItemDecoration(
             DividerItemDecoration(
                 context,
                 LinearLayoutManager.VERTICAL
@@ -118,19 +115,19 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
     // Fields for DEBOUNCE logic for search queries.
     private val mainHandler = Handler(Looper.getMainLooper())
     private var articlesApiHitRunnable: Runnable = Runnable {
-        if (!et_search.text.isBlank())
-            sourceArticleListViewModel.getSourceArticles(emptyArray(), et_search.text.toString())
+        if (dataBinding.toolbar.etSearch.text.isNotBlank())
+            sourceArticleListViewModel.getSourceArticles(emptyArray(), dataBinding.toolbar.etSearch.text.toString())
     }
 
     override fun setListeners() {
-        tl_home?.setNavigationOnClickListener {
+        dataBinding.toolbar.tlHome.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
 
-        et_search.addTextChangedListener(object : TextWatchImpl() {
+        dataBinding.toolbar.etSearch.addTextChangedListener(object : TextWatchImpl() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (!s.isNullOrBlank()) {
-                    et_search.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    dataBinding.toolbar.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
                         0,
                         0,
                         R.drawable.ic_close,
@@ -143,7 +140,7 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
                     }
 
                 } else {
-                    et_search.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                    dataBinding.toolbar.etSearch.setCompoundDrawablesRelativeWithIntrinsicBounds(
                         0,
                         0,
                         R.drawable.ic_search,
@@ -153,9 +150,9 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
             }
         })
 
-        et_search.setOnTouchListener(object : IntrinsicDrawableClickListenerImpl() {
+        dataBinding.toolbar.etSearch.setOnTouchListener(object : IntrinsicDrawableClickListenerImpl() {
             override fun onDrawableEndClicked() {
-                et_search.setText("")
+                dataBinding.toolbar.etSearch.setText("")
             }
         })
     }
@@ -163,7 +160,7 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
     override fun onViewArticle(selectedArticle: Article) {
         activity?.let {
             CustomTabsIntent.Builder()
-                .setToolbarColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+                .setToolbarColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
                 .addDefaultShareMenuItem()
                 .setShowTitle(true)
                 .build()
@@ -187,7 +184,7 @@ class SourceArticleListFragment : BaseFragment<FragmentSourceArticleListBinding>
     }
 
     override fun onShareArticle(selectedArticle: Article) {
-        val shareIntent = ShareCompat.IntentBuilder.from(activity!!)
+        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
             .setType("text/plain")
             .setText("Checkout this news -> ${selectedArticle.url}")
             .intent

@@ -20,8 +20,6 @@ import com.newsboard.ui.content.HomeListFragment
 import com.newsboard.utils.base.BaseFragment
 import com.newsboard.utils.base.ResponseState
 import com.newsboard.utils.tabMenuCategories
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.layout_toolbar.*
 
 /**
  * Root fragment with tabs and drawer navigation.
@@ -70,7 +68,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),
     }
 
     override fun setupViews() {
-        (activity as AppCompatActivity).setSupportActionBar(tl_home)
+        (activity as AppCompatActivity).setSupportActionBar(dataBinding.toolbar.tlHome)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setDisplayShowHomeEnabled(true)
         (activity as AppCompatActivity).supportActionBar?.setHomeAsUpIndicator(
@@ -92,7 +90,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),
     private fun setupViewPager() {
         dataBinding.vpHome.adapter = tabsAdapter
 
-        TabLayoutMediator(tbl_home, dataBinding.vpHome) { tab: TabLayout.Tab, i: Int ->
+        TabLayoutMediator(dataBinding.toolbar.tblHome, dataBinding.vpHome) { tab: TabLayout.Tab, i: Int ->
             tab.text = tabMenuCategories[i]
         }.attach()
     }
@@ -126,7 +124,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(),
                 selectedSource.name ?: ""
             )
         )
-        drawer_layout.closeDrawer(GravityCompat.START, true)
+        dataBinding.drawerLayout.closeDrawer(GravityCompat.START, true)
         return true
     }
 

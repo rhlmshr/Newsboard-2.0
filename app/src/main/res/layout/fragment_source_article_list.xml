@@ -6,14 +6,18 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/layout_toolbar" />
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_toolbar" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <include layout="@layout/layout_list_with_states" />
+            <include
+                android:id="@+id/vs_state"
+                layout="@layout/layout_list_with_states" />
 
             <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/pb_loader"

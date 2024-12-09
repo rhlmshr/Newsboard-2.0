@@ -18,8 +18,6 @@ import com.newsboard.data.models.articles.Article
 import com.newsboard.databinding.FragmentHomeListBinding
 import com.newsboard.utils.base.BaseFragment
 import com.newsboard.utils.base.ResponseState
-import kotlinx.android.synthetic.main.layout_empty_error_state.*
-import kotlinx.android.synthetic.main.layout_list_with_states.*
 
 class HomeListFragment : BaseFragment<FragmentHomeListBinding>(),
     ArticlesAdapter.ArticleActionHandler {
@@ -45,8 +43,8 @@ class HomeListFragment : BaseFragment<FragmentHomeListBinding>(),
     }
 
     override fun setupViews() {
-        rv_list.adapter = articlesAdapter
-        rv_list.addItemDecoration(
+        dataBinding.listStates.rvList.adapter = articlesAdapter
+        dataBinding.listStates.rvList.addItemDecoration(
             DividerItemDecoration(
                 context,
                 LinearLayoutManager.VERTICAL
@@ -63,19 +61,19 @@ class HomeListFragment : BaseFragment<FragmentHomeListBinding>(),
                 is ResponseState.Success -> {
                     articlesAdapter.submitList(it.output)
                     dataBinding.pbLoader.hide()
-                    vs_state.visibility = View.VISIBLE
-                    vs_state.displayedChild = 0
+                    dataBinding.listStates.vsState.visibility = View.VISIBLE
+                    dataBinding.listStates.vsState.displayedChild = 0
                 }
 
                 else -> {
                     if (it is ResponseState.Loading) {
-                        vs_state.visibility = View.INVISIBLE
+                        dataBinding.listStates.vsState.visibility = View.INVISIBLE
                         dataBinding.pbLoader.show()
                     } else {
                         dataBinding.pbLoader.hide()
-                        vs_state.visibility = View.VISIBLE
-                        vs_state.displayedChild = 1
-                        setEmptyErrorStates(it, iv_error, iv_error_title, iv_error_desc)
+                        dataBinding.listStates.vsState.visibility = View.VISIBLE
+                        dataBinding.listStates.vsState.displayedChild = 1
+                        setEmptyErrorStates(it, dataBinding.listStates.errorState.ivError, dataBinding.listStates.errorState.ivErrorTitle, dataBinding.listStates.errorState.ivErrorDesc)
                     }
                 }
             }
@@ -96,7 +94,7 @@ class HomeListFragment : BaseFragment<FragmentHomeListBinding>(),
     override fun onViewArticle(selectedArticle: Article) {
         activity?.let {
             CustomTabsIntent.Builder()
-                .setToolbarColor(ContextCompat.getColor(context!!, R.color.colorPrimary))
+                .setToolbarColor(ContextCompat.getColor(requireContext(), R.color.colorPrimary))
                 .addDefaultShareMenuItem()
                 .setShowTitle(true)
                 .build()
@@ -119,7 +117,7 @@ class HomeListFragment : BaseFragment<FragmentHomeListBinding>(),
     }
 
     override fun onShareArticle(selectedArticle: Article) {
-        val shareIntent = ShareCompat.IntentBuilder.from(activity!!)
+        val shareIntent = ShareCompat.IntentBuilder.from(requireActivity())
             .setType("text/plain")
             .setText("Checkout this news -> ${selectedArticle.url}")
             .intent

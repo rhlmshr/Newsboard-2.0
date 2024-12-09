@@ -17,6 +17,7 @@
         tools:context=".ui.content.HomeListFragment">
 
         <include
+            android:id="@+id/list_states"
             layout="@layout/layout_list_with_states" />
 
         <androidx.core.widget.ContentLoadingProgressBar
